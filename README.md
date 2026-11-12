@@ -52,6 +52,10 @@ Project-local instead of global: copy the same folders into your repo's
 top of a chat and it runs as a mode. You lose the Python tools, but the method
 works.
 
+Working on this repo itself, in Claude Code on your machine or in a Claude Code
+cloud session? Nothing to install. `.claude/skills/` links all eleven folders, so
+any session opened on a clone lists `/trader-scanner` and the rest straight away.
+
 The tools need Python 3.8 or newer. Nothing to pip install. The SEC tools
 (news filings, the analyst) ask you to identify yourself: put your name and
 email in `trader/config.json` (`"sec_user_agent": "Your Name you@example.com"`)

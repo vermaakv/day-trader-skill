@@ -40,7 +40,19 @@ class Repo(unittest.TestCase):
 
     def test_root_matches_the_reel(self):
         root = sorted(d for d in os.listdir(ROOT) if not d.startswith(".git"))
-        self.assertEqual(root, sorted([".claude-plugin", "LICENSE", "README.md", "tests"] + SKILLS))
+        self.assertEqual(root, sorted([".claude", ".claude-plugin", "LICENSE", "README.md", "tests"] + SKILLS))
+
+    def test_project_skills_link_every_root_skill(self):
+        # .claude/skills makes the eleven load in any Claude Code session opened on this repo,
+        # cloud sessions included, without installing the plugin. Each entry is a symlink back
+        # to the root folder, so there is one copy of every skill.
+        folder = os.path.join(ROOT, ".claude", "skills")
+        self.assertEqual(sorted(os.listdir(folder)), sorted(SKILLS))
+        for s in SKILLS:
+            link = os.path.join(folder, s)
+            self.assertTrue(os.path.islink(link), s)
+            self.assertEqual(os.readlink(link), os.path.join("..", "..", s), s)
+            self.assertTrue(os.path.isfile(os.path.join(link, "SKILL.md")), s)
 
     def test_frontmatter_name_and_description(self):
         for s in SKILLS:
